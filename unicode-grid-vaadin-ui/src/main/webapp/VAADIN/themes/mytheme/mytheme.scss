@@ -71,5 +71,10 @@
     td.code {
         font-family: monospace;
         font-size: 15px;
+        text-overflow: clip;
+    }
+
+    td.idx {
+        text-overflow: clip;
     }
 }

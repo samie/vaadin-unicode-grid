@@ -11,6 +11,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -25,24 +26,28 @@ import java.util.stream.IntStream;
 class MyGrid extends Grid {
 
     public MyGrid() {
-        setWidth("710px");
+        setWidth("720px");
         setSelectionMode(SelectionMode.NONE);
-        setCellStyleGenerator((CellReference cellReference) -> {
-            return (Integer) cellReference.getPropertyId() == 0
-                    ? "idx"
-                    : "code";
+        setCellStyleGenerator(new CellStyleGenerator() {
+
+            @Override
+            public String getStyle(CellReference cellReference) {
+                return (Integer) cellReference.getPropertyId() == 0
+                        ? "idx"
+                        : "code";
+            }
         });
         setContainerDataSource(new UnicodeContainer(0xffff));
         getColumn(0).setRenderer(new HtmlRenderer(), new UnicodeToString(false));
-        getColumn(0).setMinimumWidth(70);
-        getColumn(0).setMaximumWidth(70);
+        getColumn(0).setMinimumWidth(74);
+        getColumn(0).setMaximumWidth(74);
         getColumn(0).setHeaderCaption("");
         for (int i = 1; i < 17; i++) {
             Column c = getColumn(i);
             c.setRenderer(new HtmlRenderer(), new UnicodeToString(true));
             c.setHeaderCaption("" + Integer.toHexString(i - 1).toUpperCase());
-            c.setMinimumWidth(40);
-            c.setMaximumWidth(40);
+            c.setMinimumWidth(39);
+            c.setMaximumWidth(39);
         }
     }
 
@@ -54,7 +59,11 @@ class MyGrid extends Grid {
 
         public UnicodeContainer(int size) {
             this.size = size;
-            this.cols = IntStream.range(0, 17).boxed().collect(Collectors.toList());
+
+            this.cols = new ArrayList<>(16);
+            for (int i = 0; i < 17; i++) {
+                this.cols.add(i);
+            }
         }
 
         @Override
@@ -69,8 +78,11 @@ class MyGrid extends Grid {
 
         @Override
         public List<?> getItemIds(int startIndex, int numberOfItems) {
-            return IntStream.range(startIndex, startIndex + numberOfItems).boxed().collect(Collectors.toList());
-
+            ArrayList<Integer> res = new ArrayList<>(numberOfItems);
+            for (int i = startIndex; i < startIndex + numberOfItems; i++) {
+                res.add(i);
+            }
+            return res;
         }
 
         @Override

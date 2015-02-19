@@ -32,7 +32,7 @@ public class GridUI extends UI {
     Label hexLabel = new Label("Hex: n/a");
     Label decLabel = new Label("Decimal: n/a");
     Label charLabel = new Label("", ContentMode.HTML);
-    Label nameLabel = new Label("reindeer”");
+    Label nameLabel = new Label("”");
 
     @Override
 
@@ -62,7 +62,7 @@ public class GridUI extends UI {
 
         });
 
-        showCharacterInfo(118);
+        showCharacterInfo(71);
 
     }
 
